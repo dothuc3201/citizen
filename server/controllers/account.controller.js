@@ -1,6 +1,7 @@
 const{Account} = require('../models');
 const jwt = require('jsonwebtoken');
 
+//đăng nhập
 const loginAccount = async (req, res) =>{
     const{username, password}=req.body;
     try {
@@ -24,6 +25,7 @@ const loginAccount = async (req, res) =>{
     }
 }
 
+//cấp tài khoản
 const createAccount = async (req, res) =>{
     //console.log(req.account);
     const {username, password} = req.body;
@@ -39,17 +41,22 @@ const createAccount = async (req, res) =>{
     }
 }
 
+//đổi mật khẩu
 const changePassword = async (req, res) => {
     const {newPassword} = req.body;
     try {
-        const updateAccount = req.account;
-        updateAccount.password = newPassword;
-        await updateAccount.save();
+        //const updateAccount = req.account;
+        await Account.update({password:newPassword},{
+            where:{
+                username:req.account.username
+            }
+        })
     } catch (error) {
         res.send({message:error})
     }
 }
 
+//chỉnh sửa quyền khai báo
 const changePermission = async (req, res) =>{
     const {username} = req.body;
     try {
@@ -59,13 +66,25 @@ const changePermission = async (req, res) =>{
             }
         });
         const status = !permissionAccount.status;
-        permissionAccount.status = status;
-        permissionAccount.save();
+        await Account.update({status},{
+            where:{
+                username:{
+                    [Op.like]: username + '%'
+                }
+            }
+        });
+        const changeAccount = await Account.findOne({
+            where:{
+                username
+            }
+        });
+        res.send({message:"đã thay đổi quyền chỉnh sửa", changeAccount});
     } catch (error) {
         res.send({message:error})
     }
 }
 
+//lấy danh sách các tài khoản dưới quyền 
 const getAccount = async (req, res) => {
     try {
         if (req.account.role_id == 1){
@@ -80,7 +99,7 @@ const getAccount = async (req, res) => {
             const listAccount = await Account.findAll({
                 where:{
                     username:{
-                        [Op.like]: req.account.username + '%'
+                        [Op.like]: `${req.account.username}%`
                     },
                     role_id:req.account.role_id + 1
                 }

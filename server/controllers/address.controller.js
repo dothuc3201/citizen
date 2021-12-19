@@ -1,5 +1,6 @@
 const{Account, Province, District, Ward, Village} = require('../models');
 
+//lấy danh sách các tỉnh thành
 const getListProvince = async (req, res) => {
     try {
         const listProvince = await Province.findAll({});
@@ -13,8 +14,9 @@ const getListProvince = async (req, res) => {
     }
 }
 
+//lấy danh sách quận huyện theo mã tỉnh
 const getListDistrict = async (req, res) => {
-    const {code} = req.body;
+    const code = req.params.code;
     try {
         const listDistrict = await District.findAll({
             where:{
@@ -31,8 +33,9 @@ const getListDistrict = async (req, res) => {
     }
 }
 
+//lấy danh sách xã, phường theo mã quận, huyện
 const getListWard = async (req, res) =>{
-    const {code} = req.body;
+    const code = req.params.code;
     try {
         const listWard = await Ward.findAll({
             where:{
@@ -49,8 +52,9 @@ const getListWard = async (req, res) =>{
     }
 }
 
+//lấy danh sách các thôn theo mã xã, phường
 const getListVillage = async (req, res) => {
-    const {code} = req.body;
+    const code = req.params.code;
     try {
         const listVillage = await Village.findAll({
             where:{
@@ -67,6 +71,7 @@ const getListVillage = async (req, res) => {
     }
 }
 
+//khai báo mã cho các địa phương
 const createAddress = async (req, res) => {
     const {code, name} = req.body;
     try {

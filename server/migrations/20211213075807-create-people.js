@@ -39,14 +39,89 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW
       },
+      province_code_quequan:{
+        type: Sequelize.STRING,
+        references: {
+          model: 'provinces',
+          key: 'code',
+        }
+      },
+      district_code_quequan:{
+        type: Sequelize.STRING,
+        references: {
+          model: 'districts',
+          key: 'code',
+        }
+      },
+      ward_code_quequan:{
+        type: Sequelize.STRING,
+        references: {
+          model: 'wards',
+          key: 'code',
+        }
+      },
       village_code_quequan :{
         type: Sequelize.STRING,
+        references: {
+          model: 'villages',
+          key: 'code',
+        }
+      },
+      province_code_thuongtru:{
+        type: Sequelize.STRING,
+        references: {
+          model: 'provinces',
+          key: 'code',
+        }
+      },
+      district_code_thuongtru:{
+        type: Sequelize.STRING,
+        references: {
+          model: 'districts',
+          key: 'code',
+        }
+      },
+      ward_code_thuongtru:{
+        type: Sequelize.STRING,
+        references: {
+          model: 'wards',
+          key: 'code',
+        }
       },
       village_code_thuongtru :{
         type: Sequelize.STRING,
+        references: {
+          model: 'villages',
+          key: 'code',
+        }
+      },
+      province_code_tamtru:{
+        type: Sequelize.STRING,
+        references: {
+          model: 'provinces',
+          key: 'code',
+        }
+      },
+      district_code_tamtru:{
+        type: Sequelize.STRING,
+        references: {
+          model: 'districts',
+          key: 'code',
+        }
+      },
+      ward_code_tamtru:{
+        type: Sequelize.STRING,
+        references: {
+          model: 'wards',
+          key: 'code',
+        }
       },
       village_code_tamtru :{
         type: Sequelize.STRING,
+        references: {
+          model: 'villages',
+          key: 'code',
+        }
       }
     });
   },

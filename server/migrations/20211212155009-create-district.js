@@ -24,7 +24,7 @@ module.exports = {
           model: 'provinces',
           // This is the column name of the referenced model
           key: 'code',
-          }
+        }
       }
     });
   },
