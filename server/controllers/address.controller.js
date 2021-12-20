@@ -76,7 +76,7 @@ const createAddress = async (req, res) => {
     const {code, name} = req.body;
     try {
         if (req.account.role_id == 1){
-            const newProvince = Province.create({name, code});
+            const newProvince = await Province.create({name, code});
             if (newProvince) {
                 res.send({messsage:"tạo tỉnh thành công", newProvince})
             }else{
