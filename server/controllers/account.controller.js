@@ -1,5 +1,6 @@
 const{Account} = require('../models');
 const jwt = require('jsonwebtoken');
+const { Op } = require("sequelize");
 
 //đăng nhập
 const loginAccount = async (req, res) =>{

@@ -4,7 +4,7 @@ const { authenticate } = require('../middlewares/authen');
 
 const addressRouter = express.Router();
 
-//lấy danh sách tỉnh
+//lấy danh sách tỉnh với đường link http://localhost:3001/api/address/provinces
 addressRouter.get('/provinces', getListProvince);
 //lấy danh sách quận, huyện theo mã tỉnh
 addressRouter.get('/districts/:code', getListDistrict);
@@ -12,7 +12,7 @@ addressRouter.get('/districts/:code', getListDistrict);
 addressRouter.get('/wards/:code', getListWard);
 //lấy danh sách thôn theo mã xã, phường
 addressRouter.get('/villages/:code', getListVillage);
-//khai báo mã địa phương quản lý
+//khai báo mã địa phương quản lý với đường link http://localhost:3001/api/address/create-address
 addressRouter.post('/create-address', authenticate, createAddress);
 
 module.exports = {

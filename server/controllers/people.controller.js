@@ -1,11 +1,13 @@
 const{Account, Province, District, Ward, Village, People} = require('../models');
-
+const { Sequelize } = require('sequelize');
+const { Op } = require("sequelize");
 //nhập thông tin người dân
 const createPeople = async (req, res) =>{
     const {cccd,
            hoten, 
            ngaysinh, 
            gioitinh, 
+           tongiao,
            trinhdo, 
            nghenghiep,
            province_code_quequan,
@@ -21,11 +23,13 @@ const createPeople = async (req, res) =>{
            ward_code_tamtru, 
            village_code_tamtru} = req.body;
     try {
+        
         const newPeople = await People.create({
             cccd,
            hoten, 
            ngaysinh, 
-           gioitinh, 
+           gioitinh,
+           tongiao, 
            trinhdo, 
            nghenghiep,
            province_code_quequan,
@@ -62,12 +66,20 @@ const listPeople = async (req, res) =>{
                         [Op.like]:`${address}%`
                     }
                 },
-                include:{
-                    model: Province,
-                    model: District,
-                    model: Ward,
-                    model: Village
-                }
+                include:[
+                    {
+                        model: Province,
+                        where: {
+                            code: Sequelize.col('province_code_quequan')
+                          }
+                    },
+                    {
+                        model: District,
+                        where: {
+                            code: Sequelize.col('district_code_quequan')
+                          }
+                    }
+                ]
             })
             res.send({message:'thành công', listPeople})
         }
@@ -76,6 +88,7 @@ const listPeople = async (req, res) =>{
         res.send({message:error})
     }
 }
+
 
 module.exports = {
     createPeople,

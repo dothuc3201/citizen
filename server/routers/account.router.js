@@ -4,7 +4,7 @@ const { authenticate } = require('../middlewares/authen');
 
 const accountRouter = express.Router();
 
-//đăng nhập
+//chức năng đăng nhập với đường link http://localhost:3001/api/account/login
 accountRouter.post('/login', loginAccount);
 //khai báo tài khoản dưới quyền quản lý
 accountRouter.post('/create', authenticate, createAccount);
