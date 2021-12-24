@@ -1,75 +1,62 @@
 const{Account, Province, District, Ward, Village} = require('../models');
 
 //lấy danh sách các tỉnh thành
-const getListProvince = async (req, res) => {
+const getListAddress = async (req, res) => {
     try {
-        const listProvince = await Province.findAll({});
-        if(listProvince){
-            res.send({messsage:"thành công", listProvince});
-        }else{
-            res.send({messsage:"thất bại"});
-        }
-    } catch (error) {
-        res.send({messsage:error});
-    }
-}
-
-//lấy danh sách quận huyện theo mã tỉnh
-const getListDistrict = async (req, res) => {
-    const code = req.params.code;
-    try {
-        const listDistrict = await District.findAll({
-            where:{
-                province_code:code
+        if (req.account.role_id == 1){
+            const listProvince = await Province.findAll({});
+            if(listProvince){
+                res.send({messsage:"thành công", listProvince});
+            }else{
+                res.send({messsage:"thất bại"});
             }
-        });
-        if(listDistrict){
-            res.send({messsage:"thành công", listDistrict});
-        }else{
-            res.send({messsage:"thất bại"});
         }
+        if (req.account.role_id == 2){
+            const code = req.params.code;
+            const listDistrict = await District.findAll({
+                where:{
+                    province_code:code
+                }
+            });
+            if(listDistrict){
+                res.send({messsage:"thành công", listDistrict});
+            }else{
+                res.send({messsage:"thất bại"});
+            }
+        } 
+        if (req.account.role_id == 3){
+            const code = req.params.code;
+            const listWard = await Ward.findAll({
+                where:{
+                    district_code:code
+                }
+            });
+            if(listWard){
+                res.send({messsage:"thành công", listWard});
+            }else{
+                res.send({messsage:"thất bại"});
+            }
+        } 
+        if (req.account.role_id == 4){
+            const code = req.params.code;
+            const listVillage = await Village.findAll({
+                where:{
+                    ward_code:code
+                }
+            });
+            if(listVillage){
+                res.send({messsage:"thành công", listVillage});
+            }else{
+                res.send({messsage:"thất bại"});
+            }
+        } 
     } catch (error) {
         res.send({messsage:error});
     }
 }
 
+//lấy danh sách quận huyện theo mã tỉn
 //lấy danh sách xã, phường theo mã quận, huyện
-const getListWard = async (req, res) =>{
-    const code = req.params.code;
-    try {
-        const listWard = await Ward.findAll({
-            where:{
-                district_code:code
-            }
-        });
-        if(listWard){
-            res.send({messsage:"thành công", listWard});
-        }else{
-            res.send({messsage:"thất bại"});
-        }
-    } catch (error) {
-        res.send({messsage:error});
-    }
-}
-
-//lấy danh sách các thôn theo mã xã, phường
-const getListVillage = async (req, res) => {
-    const code = req.params.code;
-    try {
-        const listVillage = await Village.findAll({
-            where:{
-                ward_code:code
-            }
-        });
-        if(listVillage){
-            res.send({messsage:"thành công", listVillage});
-        }else{
-            res.send({messsage:"thất bại"});
-        }
-    } catch (error) {
-        res.send({messsage:error});
-    }
-}
 
 //khai báo mã cho các địa phương
 const createAddress = async (req, res) => {
@@ -121,10 +108,11 @@ const getAddress = async (req, res) =>{
     try {
         if (req.account.role_id == 1){
             const listProvince = await Province.findAll({});
-            res.send({role_id:1}, listProvince);
+            res.send({role_id:1, listProvince});
+            console.log(listProvince);
         };
         if(req.account.role_id == 2){
-            const addressDetail = await Province.findAll({
+            const addressDetail = await Province.findOne({
                 where:{
                     code:address
                 }
@@ -182,10 +170,7 @@ const getAddress = async (req, res) =>{
     }
 }
 module.exports = {
-    getListProvince,
-    getListDistrict,
-    getListWard,
-    getListVillage,
+    getListAddress,
     createAddress,
     getAddress
 }

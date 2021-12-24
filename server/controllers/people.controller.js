@@ -1,7 +1,7 @@
 const{Account, Province, District, Ward, Village, People_quequan, People_tamtru, People_thuongtru} = require('../models');
 const { Op } = require("sequelize");
 //nhập thông tin người dân
-const createPeople = async (req, res) =>{
+const createPeopleQuequan = async (req, res) =>{
     const {cccd,
            hoten, 
            ngaysinh, 
@@ -13,22 +13,14 @@ const createPeople = async (req, res) =>{
            district_code_quequan,
            ward_code_quequan, 
            village_code_quequan,
-           province_code_thuongtru,
-           district_code_thuongtru,
-           ward_code_thuongtru, 
-           village_code_thuongtru,
-           province_code_tamtru,
-           district_code_tamtru,
-           ward_code_tamtru, 
-           village_code_tamtru
         } = req.body;
     try {
-        const peopleQuequan = await People_quequan.findAll({
+        const people = await People_quequan.findAll({
             where:{
                 cccd
             }
         });
-        if (peopleQuequan) {
+        if (people) {
             await People_quequan.destroy({
                 where: {
                   cccd
@@ -48,12 +40,32 @@ const createPeople = async (req, res) =>{
            ward_code_quequan, 
            village_code_quequan,
         });
-        const peopleThuongtru = await People_thuongtru.findAll({
+        res.send({message:"thêm thành công", newPeople_quequan})
+    } catch (error) {
+        res.send({message:error})
+    }
+}
+
+const createPeopleThuongtru = async (req, res) =>{
+    const {cccd,
+           hoten, 
+           ngaysinh, 
+           gioitinh, 
+           tongiao,
+           trinhdo, 
+           nghenghiep,
+           province_code_thuongtru,
+           district_code_thuongtru,
+           ward_code_thuongtru, 
+           village_code_thuongtru,
+        } = req.body;
+    try {
+        const people = await People_thuongtru.findAll({
             where:{
                 cccd
             }
         });
-        if (peopleThuongtru) {
+        if (people) {
             await People_thuongtru.destroy({
                 where: {
                   cccd
@@ -73,12 +85,32 @@ const createPeople = async (req, res) =>{
            ward_code_thuongtru, 
            village_code_thuongtru,
         });
-        const peopleTamtru = await People_tamtru.findAll({
+
+        res.send({message:"thêm thành công", newPeople_thuongtru})
+    } catch (error) {
+        res.send({message:error})
+    }
+}
+
+const createPeopleTamtru = async (req, res) =>{
+    const {cccd,
+           hoten, 
+           ngaysinh, 
+           gioitinh, 
+           tongiao,
+           trinhdo, 
+           nghenghiep,
+           province_code_tamtru,
+           district_code_tamtru,
+           ward_code_tamtru, 
+           village_code_tamtru} = req.body;
+    try {
+        const people = await People_tamtru.findAll({
             where:{
                 cccd
             }
         });
-        if (peopleTamtru) {
+        if (people) {
             await People_tamtru.destroy({
                 where: {
                   cccd
@@ -98,12 +130,11 @@ const createPeople = async (req, res) =>{
            ward_code_tamtru, 
            village_code_tamtru
         });
-        res.send({message:"thêm thành công", newPeople_quequan, newPeople_thuongtru, newPeople_tamtru})
+        res.send({message:"thêm thành công", newPeople_tamtru})
     } catch (error) {
         res.send({message:error})
     }
 }
-
 
 //delete thông tin dân cư quê quán
 const deletePeople = async (req, res) => {
@@ -351,7 +382,9 @@ const totalPeople = async (req, res) =>{
     }
 }
 module.exports = {
-    createPeople,
+    createPeopleQuequan,
+    createPeopleThuongtru,
+    createPeopleTamtru,
     listPeopleById,
     totalPeople
 }
