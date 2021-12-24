@@ -87,7 +87,7 @@ const createAddress = async (req, res) => {
             const province_code = req.account.username;
             const newDistrict = District.create({name, code, province_code});
             if (newDistrict) {
-                res.send({messsage:"tạo tỉnh thành công", newDistrict})
+                res.send({messsage:"tạo huyện thành công", newDistrict})
             }else{
                 res.send({messsage:"tạo thất bại"})
             }
@@ -96,7 +96,7 @@ const createAddress = async (req, res) => {
             const district_code = req.account.username;
             const newWard = Ward.create({name, code, district_code});
             if (newWard) {
-                res.send({messsage:"tạo tỉnh thành công", newWard})
+                res.send({messsage:"tạo xã thành công", newWard})
             }else{
                 res.send({messsage:"tạo thất bại"})
             }
@@ -105,7 +105,7 @@ const createAddress = async (req, res) => {
             const ward_code = req.account.username;
             const newVillage = Village.create({name, code, ward_code});
             if (newVillage) {
-                res.send({messsage:"tạo tỉnh thành công", newVillage})
+                res.send({messsage:"tạo thôn thành công", newVillage})
             }else{
                 res.send({messsage:"tạo thất bại"})
             }
@@ -115,10 +115,77 @@ const createAddress = async (req, res) => {
     }
 }
 
+//lấy địa chỉ theo tên đăng nhập
+const getAddress = async (req, res) =>{
+    const address = req.account.username;
+    try {
+        if (req.account.role_id == 1){
+            const listProvince = await Province.findAll({});
+            res.send({role_id:1}, listProvince);
+        };
+        if(req.account.role_id == 2){
+            const addressDetail = await Province.findAll({
+                where:{
+                    code:address
+                }
+            });
+            res.send({role_id:2, addressDetail});
+        }
+        if(req.account.role_id == 3){
+            const addressDetail = await District.findAll({
+                where:{
+                    code:address
+                },
+                include:{
+                    model: Province
+                }
+            });
+            res.send({role_id:3, addressDetail});
+        }
+        if(req.account.role_id == 4){
+            const addressDetail = await Ward.findAll({
+                where:{
+                    code:address
+                },
+                include:
+                    {
+                        model: District,
+                        include:{
+                            model:Province,
+                        }
+                    }               
+            });
+            res.send({role_id:4, addressDetail});
+            
+        };
+        if(req.account.role_id == 5){
+            const addressDetail = await Village.findAll({
+                where:{
+                    code:address
+                },
+                include:
+                    {
+                        model: Ward,
+                        include:{
+                            model:District,
+                            include:{
+                                model:Province
+                            }
+                        }
+                    }               
+            });
+            res.send({role_id:5, addressDetail});
+            
+        }
+    } catch (error) {
+        res.send({messsage:error})
+    }
+}
 module.exports = {
     getListProvince,
     getListDistrict,
     getListWard,
     getListVillage,
-    createAddress
+    createAddress,
+    getAddress
 }

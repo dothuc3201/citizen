@@ -9,13 +9,13 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({Province, Ward, People}) {
+    static associate({Province, Ward, People_quequan, People_tamtru, People_thuongtru}) {
       // define association here
-      this.belongsTo(Province,{foreignKey:'province_code'});
-      this.hasMany(Ward, {foreignKey:'district_code'});
-      this.hasMany(People, {foreignKey:'district_code_quequan'});
-      this.hasMany(People, {foreignKey:'district_code_thuongtru'});
-      this.hasMany(People, {foreignKey:'district_code_tamtru'});
+      this.belongsTo(Province,{foreignKey:'province_code', targetKey:'code'});
+      this.hasMany(Ward, {foreignKey:'district_code', targetKey:'code'});
+      this.hasMany(People_quequan, {foreignKey:'district_code_quequan', targetKey:'code'});
+      this.hasMany(People_thuongtru, {foreignKey:'district_code_thuongtru', targetKey:'code'});
+      this.hasMany(People_tamtru, {foreignKey:'district_code_tamtru', targetKey:'code'});
     }
   };
   District.init({
