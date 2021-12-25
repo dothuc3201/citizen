@@ -9,10 +9,10 @@ accountRouter.post('/login', loginAccount);
 //khai báo tài khoản dưới quyền quản lý
 accountRouter.post('/create', authenticate, createAccount);
 //thay đổi mật khẩu
-accountRouter.post('/change-password', authenticate, changePassword);
+accountRouter.put('/change-password', authenticate, changePassword);
 //lấy danh sách account dưới quyền
 accountRouter.get('/account-cap-duoi', authenticate, getAccount);
 //thay đổi quyền khai báo
-accountRouter.post('/change-permission', authenticate, changePermission);
+accountRouter.put('/change-permission/:username', authenticate, changePermission);
 
 module.exports = {accountRouter}

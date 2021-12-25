@@ -16,7 +16,7 @@ const loginAccount = async (req, res) =>{
             //console.log(loginAccount)
             const token = jwt.sign({username, role_id:loginAccount.role_id}, "pikachu", {expiresIn: 7 * 24 * 60 * 60});
             // console.log(token);
-            res.send({message:"đăng nhập thành công", token});
+            res.send({message:"đăng nhập thành công", token, username, status:loginAccount.status});
         }else{
             res.send({message:"tên đăng nhập hoặc mật khẩu không đúng"});
         }
@@ -59,7 +59,7 @@ const changePassword = async (req, res) => {
 
 //chỉnh sửa quyền khai báo
 const changePermission = async (req, res) =>{
-    const {username} = req.body;
+    const {username} = req.params;
     try {
         const permissionAccount = await Account.findOne({
             where:{
