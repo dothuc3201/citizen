@@ -2,8 +2,9 @@ const{Account, Province, District, Ward, Village} = require('../models');
 
 //lấy danh sách các vùng
 const getListAddress = async (req, res) => {
+    const code = req.params.code;
     try {
-        if (req.account.role_id == 1){
+        if ( code == 0){
             const listProvince = await Province.findAll({});
             if(listProvince){
                 res.send({messsage:"thành công", listProvince});
@@ -11,8 +12,8 @@ const getListAddress = async (req, res) => {
                 res.send({messsage:"thất bại"});
             }
         }
-        if (req.account.role_id == 2){
-            const code = req.params.code;
+        if ( code.length == 2){
+            // const code = req.params.code;
             const listDistrict = await District.findAll({
                 where:{
                     province_code:code
@@ -24,8 +25,7 @@ const getListAddress = async (req, res) => {
                 res.send({messsage:"thất bại"});
             }
         } 
-        if (req.account.role_id == 3){
-            const code = req.params.code;
+        if ( code.length == 4){
             const listWard = await Ward.findAll({
                 where:{
                     district_code:code
@@ -37,8 +37,8 @@ const getListAddress = async (req, res) => {
                 res.send({messsage:"thất bại"});
             }
         } 
-        if (req.account.role_id == 4){
-            const code = req.params.code;
+        if ( code.length == 6){
+            // const code = req.params.code;
             const listVillage = await Village.findAll({
                 where:{
                     ward_code:code
@@ -56,21 +56,15 @@ const getListAddress = async (req, res) => {
 }
 
 
+
 //khai báo mã cho các địa phương
 const createAddress = async (req, res) => {
     const {code, name} = req.body;
     try {
         if (req.account.role_id == 1){
-            const province = await Province.findAll({
-                where:{
-                    code
-                }
-            })
             if (req.account.status == 0 ){
                 res.send({messsage:'quyền khai báo đang bị khóa'})
-            } else if (province){
-                res.send({messsage:'mã vùng đã tồn tại'})
-            }else{
+            } else{
                 const newProvince = await Province.create({name, code});
                 if (newProvince) {
                     res.send({messsage:"tạo tỉnh thành công", newProvince})
@@ -80,17 +74,9 @@ const createAddress = async (req, res) => {
             }
         };
         if (req.account.role_id == 2){
-            const district = await District.findAll({
-                where:{
-                    code
-                }
-            })
             if (req.account.status == 0 ){
                 res.send({messsage:'quyền khai báo đang bị khóa'})
-            } else if (district){
-                res.send({messsage:'mã vùng đã tồn tại'})
-            }
-            else{
+            } else {
                 const province_code = req.account.username;
                 const newDistrict = await District.create({name, code, province_code});
                 if (newDistrict) {
@@ -101,17 +87,9 @@ const createAddress = async (req, res) => {
             }
         };
         if (req.account.role_id == 3){
-            const ward = await Ward.findAll({
-                where:{
-                    code
-                }
-            })
             if (req.account.status == 0 ){
                 res.send({messsage:'quyền khai báo đang bị khóa'})
-            } else if (ward){
-                res.send({messsage:'mã vùng đã tồn tại'})
-            }
-            else{
+            } else {
                 const district_code = req.account.username;
                 const newWard = await Ward.create({name, code, district_code});
                 if (newWard) {
@@ -122,16 +100,9 @@ const createAddress = async (req, res) => {
             }            
         };
         if (req.account.role_id == 4){
-            const village = await Village.findAll({
-                where:{
-                    code
-                }
-            })
             if (req.account.status == 0 ){
                 res.send({messsage:'quyền khai báo đang bị khóa'})
-            } else if (village){
-                res.send({messsage:'mã vùng đã tồn tại'})
-            }else{
+            } else{
                 const ward_code = req.account.username;
                 const newVillage = await Village.create({name, code, ward_code});
                 if (newVillage) {

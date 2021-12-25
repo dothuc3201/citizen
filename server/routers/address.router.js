@@ -1,5 +1,5 @@
 const express = require('express');
-const { getListProvince, getListDistrict, getListWard, getListVillage, createAddress, getAddress, getListAddress } = require('../controllers/address.controller');
+const { createAddress, getAddress, getListAddress } = require('../controllers/address.controller');
 const { authenticate } = require('../middlewares/authen');
 
 const addressRouter = express.Router();
