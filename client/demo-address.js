@@ -21,6 +21,7 @@ function dashboard() {
     danhsachBtn.style.display = "none";
     khaibaocapmaBtn.style.display = "none";
     phantichdansoBtn.style.display = "block";
+    bieudodanso();
 
 }
 
@@ -720,7 +721,8 @@ function thongketongiao() {
     })
 }
 
-getData('http://localhost:3001/api/people/phan-tich-dan-so', {})
+function bieudodanso(){
+    getData('http://localhost:3001/api/people/phan-tich-dan-so', {})
     .then(data =>{
         var bieudodanso = document.getElementById('bieudodanso');
         console.log(data);
@@ -837,6 +839,8 @@ getData('http://localhost:3001/api/people/phan-tich-dan-so', {})
             bieudodanso.innerHTML = html;
         }
     })
+}
+bieudodanso();
 
 
 
