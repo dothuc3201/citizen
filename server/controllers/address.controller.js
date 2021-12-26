@@ -122,8 +122,8 @@ const getAddress = async (req, res) =>{
     const address = req.account.username;
     try {
         if (req.account.role_id == 1){
-            const listProvince = await Province.findAll({});
-            res.send({role_id:1, listProvince});
+            const listProvince = await Province.findOne({});
+            res.send({role_id:1, listProvince, addressDetail:0});
         };
         if(req.account.role_id == 2){
             const addressDetail = await Province.findOne({
@@ -134,7 +134,7 @@ const getAddress = async (req, res) =>{
             res.send({role_id:2, addressDetail});
         }
         if(req.account.role_id == 3){
-            const addressDetail = await District.findAll({
+            const addressDetail = await District.findOne({
                 where:{
                     code:address
                 },
@@ -145,7 +145,7 @@ const getAddress = async (req, res) =>{
             res.send({role_id:3, addressDetail});
         }
         if(req.account.role_id == 4){
-            const addressDetail = await Ward.findAll({
+            const addressDetail = await Ward.findOne({
                 where:{
                     code:address
                 },
@@ -161,7 +161,7 @@ const getAddress = async (req, res) =>{
             
         };
         if(req.account.role_id == 5){
-            const addressDetail = await Village.findAll({
+            const addressDetail = await Village.findOne({
                 where:{
                     code:address
                 },

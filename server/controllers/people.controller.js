@@ -23,7 +23,7 @@ const createPeople = async (req, res) =>{
            village_code_tamtru
         } = req.body;
     try {
-        const people_quequan = await People_quequan.findAll({
+        const people_quequan = await People_quequan.findOne({
             where:{
                 cccd
             }
@@ -48,7 +48,7 @@ const createPeople = async (req, res) =>{
            ward_code_quequan, 
            village_code_quequan,
         });
-        const people_thuongtru = await People_thuongtru.findAll({
+        const people_thuongtru = await People_thuongtru.findOne({
             where:{
                 cccd
             }
@@ -73,7 +73,7 @@ const createPeople = async (req, res) =>{
            ward_code_thuongtru, 
            village_code_thuongtru,
         });
-        const people_tamtru = await People_tamtru.findAll({
+        const people_tamtru = await People_tamtru.findOne({
             where:{
                 cccd
             }
@@ -318,7 +318,7 @@ const listPeopleById = async (req, res) =>{
                         model: Village,
                     }
                 ],
-                order:['province_code_quequan','district_code_quequan','ward_code_quequan','village_code_quequan']
+                order:['province_code_thuongtru','district_code_thuongtru','ward_code_thuongtru','village_code_thuongtru']
 
             })
             res.send({message:'thành công', listPeople})
@@ -344,7 +344,7 @@ const listPeopleById = async (req, res) =>{
                         model: Village,
                     }
                 ],
-                order:['province_code_quequan','district_code_quequan','ward_code_quequan','village_code_quequan']
+                order:['province_code_tamtru','district_code_tamtru','ward_code_tamtru','village_code_tamtru']
 
             })
             res.send({message:'thành công', listPeople})
@@ -366,7 +366,7 @@ const totalPeople = async (req, res) =>{
                 require:true
             }
         })
-        res.send(totalPeople);
+        res.send({totalPeople, role_id:req.account.role_id});
     }
     if (req.account.role_id == 2){
         const totalPeople = await People_thuongtru.findAndCountAll({
@@ -381,7 +381,7 @@ const totalPeople = async (req, res) =>{
                 province_code_thuongtru:req.account.username
             }
         })
-        res.send(totalPeople);
+        res.send({totalPeople, role_id:req.account.role_id});
     }
     if (req.account.role_id == 3){
         const totalPeople = await People_thuongtru.findAndCountAll({
@@ -396,7 +396,7 @@ const totalPeople = async (req, res) =>{
                 district_code_thuongtru:req.account.username
             }
         })
-        res.send(totalPeople);
+        res.send({totalPeople, role_id:req.account.role_id});
     }
     if (req.account.role_id == 4){
         const totalPeople = await People_thuongtru.findAndCountAll({
@@ -411,13 +411,15 @@ const totalPeople = async (req, res) =>{
                 ward_code_thuongtru:req.account.username
             }
         })
-        res.send(totalPeople);
+        res.send({totalPeople, role_id:req.account.role_id});
     }
 }
+
 module.exports = {
     createPeople,
     listPeopleById,
     totalPeople,
     deletePeople,
-    updatePeople
+    updatePeople,
+    getDetailPeople
 }

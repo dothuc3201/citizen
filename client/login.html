@@ -3,27 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <title>Document</title>
+    <title>Login</title>
+    <style>
+      div.container>div.panel {
+          width: 480px;
+          margin: 0px auto;
+      }
+  
+  </style>
 </head>
+
 <body>
     
-        <div class="form-group" id="login" >
-          <label for="exampleInputEmail1">Tên đăng nhập</label>
-          <input type="text" class="form-control" name= "username" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+  <div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2 class="text-center">Đăng nhập</h2>
+            <h5 style="color: red; font-size: 16px" class="text-center"></h5>
         </div>
-        <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input type="password" class="form-control" name= "password" id="exampleInputPassword1" placeholder="Password">
+        <div class="panel-body">
+            <!-- <form method="post" >
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input required="true" type="email" class="form-control" id="email" name="email" >
+                </div>
+                <div class="form-group">
+                    <label for="pwd">Mật khẩu:</label>
+                    <input required="true" type="password" class="form-control" id="pwd" name="password" minlength="6">
+                </div>
+                
+                <button class="btn btn-success">Đăng nhập</button>
+            </form> -->
+
+
+            <div class="form-group" id="login" >
+                <label for="exampleInputEmail1">Tên đăng nhập</label>
+                <input type="text" class="form-control" name= "username" id="exampleInputEmail1" placeholder="Enter your account">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" name= "password" id="exampleInputPassword1" placeholder="Password">
+              </div>
+              <button type="submit" class="btn btn-success" onclick="submit()">Submit</button>
+
         </div>
-        <button type="submit" class="btn btn-primary" onclick="submit()">Submit</button>
+    </div>
+
+  </div>
+
+   
+    
+     
       
 
-    <script type="text/javascript" src="login.js"> 
-    </script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="login.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
+
 </html>

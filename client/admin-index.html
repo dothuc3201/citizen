@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,6 +11,513 @@
     
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
     
+    
+        <style>
+            body {
+                font-size: .875rem;
+            }
+
+            .feather {
+                width: 16px;
+                height: 16px;
+                vertical-align: text-bottom;
+            }
+
+            /*
+            * Sidebar
+            */
+
+            .sidebar {
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                z-index: 100; /* Behind the navbar */
+                padding: 48px 0 0; /* Height of navbar */
+                box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            }
+
+            .sidebar-sticky {
+                position: relative;
+                top: 0;
+                height: calc(100vh - 48px);
+                padding-top: .5rem;
+                overflow-x: hidden;
+                overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+            }
+
+            @supports ((position: -webkit-sticky) or (position: sticky)) {
+                .sidebar-sticky {
+                    position: -webkit-sticky;
+                    position: sticky;
+                }
+            }
+
+            .sidebar .nav-link {
+                font-weight: 500;
+                color: #333;
+            }
+
+            .sidebar .nav-link .feather {
+                margin-right: 4px;
+                color: #999;
+            }
+
+            .sidebar .nav-link.active {
+                color: #007bff;
+            }
+
+            .sidebar .nav-link:hover .feather,
+            .sidebar .nav-link.active .feather {
+                color: inherit;
+            }
+
+            .sidebar-heading {
+                font-size: .75rem;
+                text-transform: uppercase;
+            }
+
+            /*
+            * Content
+            */
+
+            [role="main"] {
+                padding-top: 48px; /* Space for fixed navbar */
+            }
+
+            /*
+            * Navbar
+            */
+
+            .navbar-brand {
+                padding-top: .75rem;
+                padding-bottom: .75rem;
+                font-size: 1rem;
+                background-color: rgba(0, 0, 0, .25);
+                box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+            }
+
+            .navbar .form-control {
+                padding: .75rem 1rem;
+                border-width: 0;
+                border-radius: 0;
+            }
+
+            .form-control-dark {
+                color: #fff;
+                background-color: rgba(255, 255, 255, .1);
+                border-color: rgba(255, 255, 255, .1);
+            }
+
+            .form-control-dark:focus {
+                border-color: transparent;
+                box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
+            }
+
+        </style>
+    </head>
+
+    <body>
+        <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Admin</a>
+       
+            <ul class="navbar-nav px-3">
+                <li class="nav-item text-nowrap">
+                    <a class="nav-link" href="#">Đăng xuất</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="container-fluid">
+            <div class="row">
+                <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                    <div class="sidebar-sticky">
+                        <ul class="nav flex-column">
+                            
+                            <li class="nav-item" onclick="dashboard()">
+                                <a class="nav-link active" href="#">
+                                    <i class="bi bi-house-fill"></i>
+                                    Home
+                                </a>
+                            </li>
+
+                            <li class="nav-item" onclick="thongkedanso()">
+                                <a class="nav-link" href="#">
+                                    <i class="bi bi-folder"></i>
+                                    Thống kê dân số
+                                </a>
+                            </li>
+
+                            <li class="nav-item" onclick="khaibao()">
+                                <a class="nav-link" href="#" >
+                                    <i class="bi bi-file-earmark-text"></i>
+                                    Khai báo
+                                </a>
+                            </li>
+
+                            <li class="nav-item" onclick="quanlycapduoi()">
+                                <a class="nav-link" href="#">
+                                    <i class="bi bi-minecart"></i>
+                                    Quản lý cấp dưới
+                                </a>
+                            </li>
+
+                            <li class="nav-item" onclick="khaibaovacapma()">
+                                <a class="nav-link" href="#">
+                                    <i class="bi bi-folder"></i>
+                                    Khai báo và cấp mã
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+
+                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                    <div id="phantichdanso">
+                        <div id="bieudodanso">
+
+                        </div>
+
+                        <div>
+                            <button style="margin-top: 10px;" type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo5">Thống kê theo giới tính</button>
+                            <div id="demo5" class="collapse">
+
+                                <div class="row">
+                                    <div class="col-md-12">                        
+                                        <div class="panel panel-primary">
+                                            <div style="margin-top: 30px;">
+                                                <div class="form-group">
+                                                    <select name="gender2" id="gender2">
+                                                        <option value="">--Chọn giới tính</option>
+                                                        <option value="Male">Male</option>
+                                                        <option value="Female">Female</option>
+                                                        <option value="Other">Other</option>
+                                                    </select>
+                                                </div>
+
+                                                <button class="btn btn-success" onclick="thongkegioitinh()">Tìm kiếm</button>
+
+                                            </div> 
+                                            
+                                            <div id="demo3" style="margin-top: 20px;">
+                                                <table class="table table-success table-hover ">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>CCCD</th>
+                                                            <th>Họ tên</th>
+                                                            <th>Ngày sinh</th>
+                                                            <th>Giới tính</th>
+                                                            <th>Tôn giáo</th>
+                                                            <th>Nghề nghiệp</th>
+                                                            <th>Tỉnh</th>
+                                                            <th>Huyện</th>
+                                                            <th>Xã</th>
+                                                            <th>Thôn</th>
+                                                        </tr>
+                                                    </thead>
+        
+                                                    <tbody id="thongkegioitinh">
+        
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <button style="margin-top: 10px;" type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo6">Thống kê theo tôn giáo</button>
+                            <div id="demo6" class="collapse">
+
+                                <div class="row">
+                                    <div class="col-md-12">                        
+                                        <div class="panel panel-primary">
+                                            <div style="margin-top: 30px;">
+                                                <div class="form-group">
+                                                    <select name="tongiao">
+                                                        <option value="">--Chọn tôn giáo</option>
+                                                        <option value="islam">Islam</option>
+                                                        <option value="hinduism">Hinduism</option>
+                                                        <option value="roman">Roman</option>
+                                                    </select>
+                                                </div>
+
+                                                <button class="btn btn-success" onclick="thongketongiao()">Tìm kiếm</button>
+
+                                            </div> 
+                                            
+                                            <div id="demo10" style="margin-top: 20px;">
+                                                <table class="table table-success table-hover ">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>CCCD</th>
+                                                            <th>Họ tên</th>
+                                                            <th>Ngày sinh</th>
+                                                            <th>Giới tính</th>
+                                                            <th>Tôn giáo</th>
+                                                            <th>Nghề nghiệp</th>
+                                                            <th>Tỉnh</th>
+                                                            <th>Huyện</th>
+                                                            <th>Xã</th>
+                                                            <th>Thôn</th>
+                                                        </tr>
+                                                    </thead>
+        
+                                                    <tbody id="thongketongiao">
+        
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                
+                    </div>
+                    
+                    <div id="khaibaothongtincongdan">
+                        <div class="row">
+                            <div class="col-md-12">
+                    
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <h2 class="text-center">Khai báo thông tin công dân</h2>
+                                        <h5 style="color: red; font-size: 16px" class="text-center"></h5>     
+                                    </div>
+                                    <div class="panel-body">
+                                        <div>
+                                            <div class="form-group">
+                                                <label for="idcard">Số CCCD/CMND:</label>
+                                                <input type="text" required="true" class="form-control" id="idcard" name="cccd">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="usr">Họ và tên:</label>
+                                                <input required="true" type="text" class="form-control" id="usr" name="fullname">
+                                                <input type="text" name="id" hidden="true">
+                                            </div>
+    
+                                            <div class="form-group">
+                                                <label for="birthday">Ngày sinh:</label>
+                                                <input type="date" id="birthday" name="birthday" style="margin-left:10px">
+                                            </div>
+    
+                                            <div class="form-group">
+                                                <label for="gender" style="margin-right:18px">Giới tính:</label>
+                                                <select name="gender" id="gender">
+                                                    <option value="Male">Male</option>
+                                                    <option value="Female">Female</option>
+                                                    <option value="Other">Other</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="religion">Tôn giáo:</label>
+                                                <input type="text" required="true" class="form-control" id="religion" name="religion">
+                                            </div>
+    
+    
+                                            
+    
+                                            <div class="form-group">
+                                                <label for="academic ">Trình độ văn hóa:</label>
+                                                <input type="text" required="true" class="form-control" id="academic" name="academic">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="job">Nghề nghiệp:</label>
+                                                <input type="text" required="true" class="form-control" id="job " name="job">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="quequan">Quê quán:</label>
+                                                <!-- <input type="text" required="true" class="form-control" id="quequan" name="quequan"> -->
+                                                <div class="" style="width:600px;">
+                                                    <div style="margin-bottom: 5px;">
+                                                        <!-- onchange="chontinhthanhcong(this)" -->
+                                                        <select  style="display:inline-block; width: 200px; height: 35px; margin-right: 10px;" id="chontinh" onchange="chontinhthanhcong(this)" name="tinh">
+                                                            <option style="width: 100%; display: block">--Chọn tỉnh/thành phố:</option>
+                                                            <!-- <option value="0" >Chọn tỉnh/thành phố:</option>
+                                                            <option value="1">Audi</option>
+                                                            <option value="2">BMW</option>                                                -->
+                                                        </select>  
+                                                    </div>
+
+                                                    
+                                                    <div style="margin-bottom: 5px; margin-right: 5px;">
+                                                        <select style="display:inline-block; width: 200px; height: 35px; margin-right: 10px;" id="chonhuyen" onchange="chonhuyenthanhcong(this)" name="huyen">
+                                                            <option style="width: 100%; display: block">--Chọn quận/huyện:</option>
+                                                                                                                
+                                                        </select>  
+                                                    </div>
+                                                    
+                                                    <div style="margin-bottom: 5px; margin-right: 5px;">
+                                                        <select style="display:inline-block; width: 200px; height: 35px; margin-right: 10px;" id="chonxa" onchange="chonxathanhcong(this)" name="xa">
+                                                            <option style="width: 100%; display: block">--Chọn xã/phường:</option>
+                                                                                                               
+                                                        </select>  
+                                                    </div>
+                                                    
+                                                    <div style="margin-top: 5px;">
+                                                        <select style="display:inline-block; width: 200px; height: 35px; margin-right: 10px;" id="chonthon" onchange="chonthonthanhcong(this)" name="thon">
+                                                            <option style="width: 100%; display: block">--Chọn thôn/bản:</option>
+                                                                                                                  
+                                                        </select> 
+                                                    </div>
+                                                    
+                                                </div>
+
+                                                
+
+                                            </div>
+    
+                                            
+                                            <button class="btn btn-success" onclick="submitkhaibaodanso()">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="danhsachnguoidan">
+                        <div class="row" style="margin-top: 20px;">
+                            <div class="col-md-12 table-responsive">
+
+                                <div style="margin-bottom: 20px;">
+                                    <!-- <a href="#"><button class="btn btn-success" >Danh sách các tài khoản dưới quyền</button></a> -->
+                                    <!-- <a href="#demo2" class="btn btn-success" data-toggle="collapse"  onclick="hienthidanhsachdansodakhaibao()">Danh sách các công dân đã khai báo</a> -->
+                                    <h2>Danh sách các công dân đã khai báo</h2>
+                                    <div id="demo2" style="margin-top: 20px;">
+                                        <table class="table table-success table-hover ">
+                                            <thead>
+                                                <tr>
+                                                    <th>CCCD</th>
+                                                    <th>Họ tên</th>
+                                                    <th>Ngày sinh</th>
+                                                    <th>Giới tính</th>
+                                                    <th>Tôn giáo</th>
+                                                    <th>Nghề nghiệp</th>
+                                                    <th>Tỉnh</th>
+                                                    <th>Huyện</th>
+                                                    <th>Xã</th>
+                                                    <th>Thôn</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody id="hienthicongdandakhaibao">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                               </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="themtaikhoan">
+                        <div class="row" style="margin-top: 20px;">
+                            <div class="col-md-12 table-responsive">
+
+                                <div style="margin-bottom: 20px;">
+                                    <!-- <a href="#"><button class="btn btn-success" >Danh sách các tài khoản dưới quyền</button></a> -->
+                                    <a href="#demo" class="btn btn-success" data-toggle="collapse"  onclick="hienthidanhsachcactaikhoandioiquyen()">Hiển thị danh sách các tài khoản dưới quyền</a>
+                                    <div id="demo" class="collapse" style="margin-top: 20px;">
+                                        <table class="table table-success table-hover ">
+                                            <thead>
+                                                <tr>
+                                                    <th>Username</th>
+                                                    <th>Status</th>
+                                                    <th>CreatedAt</th>
+                                                    <th>UpdatedAt</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody id="hienthicapduoiquyen">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                               </div>
+                                
+                            </div>
+                        </div>
+                        <div>
+                            <!-- <div class="form-group">
+                                <label for="nhapmavung">Thêm tài khoản cấp dưới</label>
+                                <input type="text" class="form-control" name= "code" id="nhapmavung" placeholder="Nhập mã vùng">
+                            </div>
+                            <div class="form-group">
+                                <label for="nhaptenvungmoi">Khai báo tên vùng mới</label>
+                                <input type="text" class="form-control" name= "name" id="nhaptenvungmoi" placeholder="Nhập tên vùng cần khai báo">
+                            </div>
+                            <button type="submit" class="btn btn-success" onclick="themtaikhoancapduoi()">Thêm Tài Khoản</button>   -->
+
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h2 class="text-center">Thêm tài khoản cấp dưới</h2>
+                                    <h5 style="color: red; font-size: 16px" class="text-center"></h5>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label for="nhaptaikhoancapduoi">Username</label>
+                                        <input type="text" class="form-control" name= "username2" id="nhaptaikhoancapduoi" placeholder="Tạo tài khoản cấp dưới">
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="nhapmatkhaucapduoi">Password</label>
+                                        <input type="password" class="form-control" name= "password2" id="nhapmatkhaucapduoi" placeholder="Tạo mật khẩu cấp dưới">
+                                    </div>
+                                    <button type="submit" class="btn btn-success" onclick="themtaikhoancapduoi()">Thêm Tài Khoản</button>                       
+                                </div>
+                            </div>.                
+                            
+                        </div>
+                    </div>
+
+                    <div id="khaibaocapma">
+                        <div class="container">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h2 class="text-center">Khai báo và cấp mã vùng</h2>
+                                    <h5 style="color: red; font-size: 16px" class="text-center"></h5>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group" id="login" >
+                                        <!-- <label for="nhaptenvung">Tên vùng đã được khai báo</label> -->
+                                        <!-- <input type="text" class="form-control" name= "namereligion" id="nhaptenvung" placeholder="Nhập tên vùng"> -->
+
+                                        <select class="form-control" id="nhaptenvung" name= "namereligion">
+    
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="nhaptenvungmoi">Khai báo tên vùng mới</label>
+                                        <input type="text" class="form-control" name= "name" id="nhaptenvungmoi" placeholder="Nhập tên vùng cần khai báo">
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="nhapmavung">Cấp mã vùng </label>
+                                        <input type="text" class="form-control" name= "code" id="nhapmavung" placeholder="Nhập mã vùng">
+                                    </div>
+                                    <button type="submit" class="btn btn-success" onclick="submitMaVung()">Submit</button>                       
+                                </div>
+                            </div>.                       
+                          </div>
+                        
+                    </div>
+                </main>
+            </div>
+        </div>
+
+        <script src="demo-address.js"></script>
         <!-- jQuery library -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     
@@ -21,308 +526,5 @@
     
         <!-- Latest compiled JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    
-    
-    <style>
-        body {
-    font-size: .875rem;
-}
-
-.feather {
-    width: 16px;
-    height: 16px;
-    vertical-align: text-bottom;
-}
-
-/*
- * Sidebar
- */
-
-.sidebar {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 100; /* Behind the navbar */
-    padding: 48px 0 0; /* Height of navbar */
-    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-}
-
-.sidebar-sticky {
-    position: relative;
-    top: 0;
-    height: calc(100vh - 48px);
-    padding-top: .5rem;
-    overflow-x: hidden;
-    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-}
-
-@supports ((position: -webkit-sticky) or (position: sticky)) {
-    .sidebar-sticky {
-        position: -webkit-sticky;
-        position: sticky;
-    }
-}
-
-.sidebar .nav-link {
-    font-weight: 500;
-    color: #333;
-}
-
-.sidebar .nav-link .feather {
-    margin-right: 4px;
-    color: #999;
-}
-
-.sidebar .nav-link.active {
-    color: #007bff;
-}
-
-.sidebar .nav-link:hover .feather,
-.sidebar .nav-link.active .feather {
-    color: inherit;
-}
-
-.sidebar-heading {
-    font-size: .75rem;
-    text-transform: uppercase;
-}
-
-/*
- * Content
- */
-
-[role="main"] {
-    padding-top: 48px; /* Space for fixed navbar */
-}
-
-/*
- * Navbar
- */
-
-.navbar-brand {
-    padding-top: .75rem;
-    padding-bottom: .75rem;
-    font-size: 1rem;
-    background-color: rgba(0, 0, 0, .25);
-    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
-}
-
-.navbar .form-control {
-    padding: .75rem 1rem;
-    border-width: 0;
-    border-radius: 0;
-}
-
-.form-control-dark {
-    color: #fff;
-    background-color: rgba(255, 255, 255, .1);
-    border-color: rgba(255, 255, 255, .1);
-}
-
-.form-control-dark:focus {
-    border-color: transparent;
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
-}
-
-    </style>
-    </head>
-<body>
-<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Admin</a>
-
-   
-    <ul class="navbar-nav px-3">
-        <li class="nav-item text-nowrap">
-            <a class="nav-link" href="#">Đăng xuất</a>
-        </li>
-    </ul>
-</nav>
-<div class="container-fluid">
-    <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-            <div class="sidebar-sticky">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">
-                            <i class="bi bi-house-fill"></i>
-                            Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="bi bi-folder"></i>
-                            Thống kê dân số
-                        </a>
-                    </li>
-                    <li class="nav-item" onclick="create()">
-                        <a class="nav-link" href="#" >
-                            <i class="bi bi-file-earmark-text"></i>
-                            Khai báo
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="bi bi-minecart"></i>
-                            Quản lý cấp dưới
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="bi bi-question-circle-fill"></i>
-                            Danh mục
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="bi bi-people-fill"></i>
-                            Danh mục
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-<script src="demo-address.js"></script>
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-            <!-- hien thi tung chuc nang cua trang quan tri START-->
-            <div class="row">
-                <div class="col-md-12">
-        
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h2 class="text-center">Khai báo thông tin công dân</h2>
-                            <h5 style="color: red; font-size: 16px" class="text-center"></h5>        </div>
-                        <div class="panel-body">
-                            <form>
-                                <div class="form-group">
-                                    <label for="usr">Họ và tên:</label>
-                                    <input required="true" type="text" class="form-control" id="usr" name="fullname">
-                                    <input type="text" name="id" hidden="true">
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="idcard">Số CCCD/CMND:</label>
-                                    <input type="text" required="true" class="form-control" id="idcard" name="idencard">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="birthday">Ngày sinh:</label>
-                                    <input type="date" id="birthday" name="birthday" style="margin-left:10px">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="gender" style="margin-right:18px">Giới tính:</label>
-                                    <select name="gender" id="gender">
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                        <option value="Other">Other</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="quequan">Quê quán:</label>
-                                    <input type="text" required="true" class="form-control" id="quequan" name="quequan">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="religion">Tôn giáo:</label>
-                                    <input type="text" required="true" class="form-control" id="religion" name="religion">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="academic ">Trình độ văn hóa:</label>
-                                    <input type="text" required="true" class="form-control" id="academic " name="academic">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="job">Nghề nghiệp:</label>
-                                    <input type="text" required="true" class="form-control" id="job " name="job">
-                                </div>
-
-                                
-                                
-                                <button class="btn btn-success">Submit</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row" style="margin-top: 20px;">
-                <h3>Danh sách người dân</h3>
-                <div class="col-md-12 table-responsive">
-        
-        
-                    <table class="table table-bordered table-hover" style="margin-top: 20px;">
-                        <thead>
-                        <tr>
-                            <th>STT</th>
-                            <th>Họ và tên</th>
-                            <th>Ngày tháng năm sinh</th>
-                            <th>Giới tính</th>
-                            <th>Tôn giáo</th>
-                            <th>Thông tin chi tiết</th>
-                            
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <th></th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><button class="btn btn-warning">Xem thông tin chi tiết</button></td>
-                            
-                        
-                            </td>
-                            
-                        </tr>
-                        
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="row" style="margin-top: 20px;">
-                <div class="col-md-12 table-responsive">
-        
-        
-                    <a href="#"><button class="btn btn-success" >Thêm Tài Khoản</button></a>
-        
-                    <table class="table table-bordered table-hover" style="margin-top: 20px;">
-                        <thead>
-                        <tr>
-                            <th>STT</th>
-                            <th>Họ & Tên</th>
-                            <th>Email</th>
-                            <th>SĐT</th>
-                            <th>Địa Chỉ</th>
-                            <th>Quyền</th>
-                            <th style="width: 50px"></th>
-                            <th style="width: 50px"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <th></th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td style="width: 50px">
-                                <a href="#"><button class="btn btn-warning">Sửa</button></a>
-                            </td>
-                            <td style="width: 50px"><button class="btn btn-danger">Xoá</button>';
-                             
-                            </td>
-                        </tr>
-                        
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </main>
-    </div>
-</div>
-</body>
+    </body>
 </html>
